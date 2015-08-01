@@ -1,0 +1,26 @@
+---
+layout: default
+title: Categories
+---
+
+<h1>{{ page.title }}</h1>
+<p>&nbsp;</p>
+
+{% capture tags %}
+  {% for tag in site.tags %}
+    {{ tag[0] }}
+  {% endfor %}
+{% endcapture %}
+{% assign sortedtags = tags | split:' ' | sort %}
+
+{% for tag in sortedtags %}
+  <h2 id="{{ tag }}"> <a href="{{ tag | prepend: site.baseurl}}">{{ tag }}</a></h2>
+  <ul class="post-list">
+  {% for post in site.tags[tag] %}
+      <li>
+        <h4>
+          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </h4>
+  {% endfor %}
+  </ul>
+{% endfor %}
