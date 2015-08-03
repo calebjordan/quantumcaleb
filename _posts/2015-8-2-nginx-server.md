@@ -1,7 +1,7 @@
 ---
 title: Setting up NGINX for Jekyll
 layout: post
-tags: Software Jekyll
+tag: Software Jekyll
 ---
 
 To setup an nginx server to host your static jekyll blog, make sure apache is turned off. Edit `/etc/nginx/nginx.conf', and add the following **inside** the http section. This is assuming your files are located in /var/www
