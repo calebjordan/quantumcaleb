@@ -6,10 +6,37 @@ layout: page
 
 This is a rip from the available FastHenry User's Guide that comes with the fasthenry package. I put it here to make it easily findable and searchable, and also so I could read it while re-writing it. 
 
+<!-- MarkdownTOC depth=3-->
+
+1. [How to Prepare Input Files](#how-to-prepare-input-files)
+    1. [A Simple Example](#a-simple-example)
+    2. [Another Simple Example](#another-simple-example)
+    3. [Input File Syntax](#input-file-syntax)
+    4. [Other Examples](#other-examples)
+2. [Running FastHenry](#running-fasthenry)
+    1. [Example Run](#example-run)
+    2. [Processing the Output](#processing-the-output)
+    3. [Command Line Option](#command-line-option)
+    4. [Discretization Error Analysis](#discretization-error-analysis)
+3. [Geometry Postscript Pictures](#geometry-postscript-pictures)
+    1. [Creating the panel](#creating-the-panel)
+    2. [Creating the postscript file](#creating-the-postscript-file)
+    3. [Tricks](#tricks)
+    4. [Visualization artifacts](#visualization-artifacts)
+4. [Reference Plane Current Visualization](#reference-plane-current-visualization)
+    1. [Current Files](#current-files)
+    2. [Examples](#examples)
+5. [Compiling FastHenry](#compiling-fasthenry)
+
+<!-- /MarkdownTOC -->
+
+
+<a name="how-to-prepare-input-files"></a>
 ## How to Prepare Input Files
 
 This section of th emanual describes how to prepare input files for FastHenry. The input files specify the discretization of conductor volumes into filaments. The input file specifies each conductor as a sequence of straight segments, or elements, connected together at nodes. Each segment has a finite conductivity and its shape is a cylinder of rectangular cross sections of some width and height. A node is simply a point in 3 space. The cross section of each segment can then be broken into a number of parallel, thin filaments, each of which will be assumed to carry a uniform cross section of current along its length. The first two parts of this section describe the file format through simple examples. A detailed description is in the third part, and more complex examples can be found in the last section and later in the manual.  
 
+<a name="a-simple-example"></a>
 ### A Simple Example
 
 The following is an input file which calculates the loop inductance of four segments nearly tracing the perimeter of a square. It is described more thoroughly on the next page. 
@@ -82,21 +109,22 @@ E1 N1 N2 w=0.2 h=0.1 nhinc=5 nwinc=7
 specifies that E1 is to be broken up into thirty-five filaments: five along its height (nhinc=5) and seven along its width (nwinc=7). See Figure 2.
 
 <figure>
- <img src="../uploads/images/fhFig1.PNG">
+ <img src="images/fhFig1.PNG">
  <figcaption>Figure 1: Example Segment for Sample input File</figcaption>
 </figure>
 
 <figure>
-<img src="../uploads/images/fhFig2.PNG">
+<img src="images/fhFig2.PNG">
 <figcaption>Figure 2: Segment discretized into 35 filaments</figcaption>
 </figure>
 
+<a name="another-simple-example"></a>
 ### Another Simple Example
 
 To continue teaching by example, what follows is an example of computing the loop inductance of an L shaped trace over a ground plane with the trace's return path through the plane as shown in Figure 3. Note that a line beginning with `+' is a continuation of the previous line.
 
 <figure>
-    <img src="../uploads/images/fhFig3.PNG">
+    <img src="images/fhFig3.PNG">
     <figcaption>Figure 3: L-shaped trace over ground plane</figurecaption>
 </figure>
 
@@ -165,6 +193,7 @@ In this case, a single loop impedance will be computed. If, however, the .equiv 
 
 then the partial inductances and resistances of these two paths would be computed yielding a 2 x 2 impedance matrix. Computing the impedance for only two frequencies is useful for visualization of the distribution of current in the reference plane as described later in Section 4.
 
+<a name="input-file-syntax"></a>
 ### Input File Syntax
 
 Some general facts about file syntax:
@@ -306,7 +335,7 @@ Note: It is recommended that nonuniformly discretized planes be used instead of 
 ##### Uniformly discretized planes
 
 <figure>
-    <img src="../uploads/images/fhFig4.PNG">
+    <img src="images/fhFig4.PNG">
     <figcaption>Figure 4: Discretization of a Reference Plane. Segments are one-third actual width.</figcaption>
 </figure>
 
@@ -408,6 +437,7 @@ If a nearly isolated section of conductor is truly desired, consider defining tw
 
 Holes may not be produced as expected if the discretization of the plane is coarse. It is recommended that the plane be viewed by using the options "-f simple -g on" options to generate a zbuf file which can be used to generate a postscript image of the plane as described in Section 3.
 
+<a name="other-examples"></a>
 ### Other Examples
 
 This section describes other examples using more of the features of FastHenry. Some examples were created by the authors and some contributed from users. All files are available with the FastHenry source code.
@@ -453,6 +483,7 @@ Each of the thirty pins is a different shade of gray. The white portions of the 
 
 The example file msm.inp shown in Figure 11 is a metal-semiconductor-metal photodetector from NASA Langley Research Center and University of Virginia. These devices consist of a set of closely spaced, interdigitated electrodes deposited on an optically active semiconductor layer. Every other electrode is biased to the same potential, so that any two adjacent electrodes are at opposite electrostatic potentials. Becuase the electrodes are closely spaced, the electric fields between them are quite strong with application of low to moderate bias voltages. As a result, any carriers generated by absorption of light between the fingers are transported to the electrodes extremely rapidly giving fast response to short pulses of light.
 
+<a name="running-fasthenry"></a>
 ## Running FastHenry
 
 The basic form of the FastHenry program command line is
@@ -471,6 +502,7 @@ runs `fasthenry` on the example pin connect structure.
 
 Information about the input file and other FastHenry information are sent to the standard output. The impedance matrices for the frequencies specified in the input file will be placed in the text file Zc.mat. This file also lists the correspondence between columns in the impedance matrix and the ports specified in the input file. The source file ReadOutput.c described in Section 2.2 is provided as a sample program for reading the output file for postprocessing.
 
+<a name="example-run"></a>
 ### Example Run
 
 This section contains a sample run of FastHenry for the 30 pin connector example, 30pin.inp shown in Figure 9. Comments describing the output appear along the right margin in addition to the FastHenry command line option which would change the described setting.
@@ -545,6 +577,7 @@ Times: Read geometry 1.51 <-- some execution time info
 prompt %
 ```
 
+<a name="processing-the-output"></a>
 ### Processing the Output
 
 #### The impedance matrix
@@ -610,38 +643,35 @@ This produces a circuit where nodes 0 and 1 correspond to the plus and minus nod
 **Approach 2: A circuit which models the frequency dependent resistances and
 inductances**
 
-This approach generates a reduced order model for the system using the arguments "-r n -M" to FastHenry. This gives an equivalent circuit which is valid for a range of frequencies.
+This approach generates a reduced order model for the system using the arguments `-r n -M` to FastHenry. This gives an equivalent circuit which is valid for a range of frequencies.
 
 * Run FastHenry: `fasthenry -r n -M myinput.inp` Where \n" is replaced with the desired order, say 20. This produces the file `equiv circuitROM.spice` containing a single spice subcircuit.
 * Include the subcircuit in a spice input file and connect devices to it.
 
 The subcircuit will be named ROMequiv and its port nodes are p0 and m0 for the
-plus and minus terminals of port 0, p1 and m1 for port 1, etc. See the header of the equiv circuitROM.spice file for more description. Any suffix specified with "-S" will be appended to both the subcircuit name, ROMequiv, and the subcircuit filename, `equiv circuitROM.spice`. 
+plus and minus terminals of port 0, p1 and m1 for port 1, etc. See the header of the equiv circuitROM.spice file for more description. Any suffix specified with `-S` will be appended to both the subcircuit name, ROMequiv, and the subcircuit filename, `equiv circuitROM.spice`. 
 
 Comments: Approach 1 will not model frequency dependent resistance and inductance since it gives an R and L at the single specified frequency. Approach 2 will model the full frequency dependent effects up to some frequency where that frequency is higher for a higher chosen order, n. The reduced order model of Approach 2 is converted to a circuit from its state-space form through capacitors, resistors, and VCCSs so insight can only be gained by simulating the subcircuit in spice rather than looking inside the subcircuit file. An example is provided below. For a description of reduced order modeling for inductance computation see the paper tchmt-epep94.ps in the pub/fasthenry directory at the rle-vlsi.mit.edu ftp site:
 
-L. Miguel Silveira and Mattan Kamon and Jacob K. White, \Efficient ReducedOrder
-Modeling of Frequency-Dependent Coupling Inductances associated
-with 3-D Interconnect Structures", IEEE Transactions on Components, Hybrids,
-and Manufacturing Technology, Part B: Advanced Packaging, Vol. 19,
-No. 2, May 1996, pp. 283-288.
+>L. Miguel Silveira and Mattan Kamon and Jacob K. White, "Efficient ReducedOrder Modeling of Frequency-Dependent Coupling Inductances associated
+with 3-D Interconnect Structures", IEEE Transactions on Components, Hybrids, and Manufacturing Technology, Part B: Advanced Packaging, Vol. 19, No. 2, May 1996, pp. 283-288.
 
 **An example of Approach 2**
 
 The file examples/pin-con7.inp is 7 pins of a larger package shown in Figure 8.
-Each conductor is discretized into filaments to capture skin and proximity effects up to around 1010 Hz. One can generate an equivalent circuit via Approach 2 with
+Each conductor is discretized into filaments to capture skin and proximity effects up to around \\(10^10\\) Hz. One can generate an equivalent circuit via Approach 2 with
 
 ```
 fasthenry -r 20 -M pin-con7.inp -S_pin_con7_r20
 ```
 
-which produces the file equiv circuitROM pin con7 r20.spice which is an equivalent circuit for a 140th (20  7) order model. To test its accuracy, consider computing impedance matrices at many frequencies with
+which produces the file equiv circuitROM pin con7 r20.spice which is an equivalent circuit for a 140th (20x7) order model. To test its accuracy, consider computing impedance matrices at many frequencies with
 
 ```
 fasthenry pin-con7.inp -S_pin_con7
 ```
 
-which produces Zc pin con7 r20.mat which is the impedance matrix for frequencies $$1, 10, 10^2...10^12$$. A spice file is included in the examples directory to test this subcircuit and put the results in rom check con7 r20.out:
+which produces Zc pin con7 r20.mat which is the impedance matrix for frequencies \\(1, 10, 10^2...10^12\\). A spice file is included in the examples directory to test this subcircuit and put the results in rom check con7 r20.out:
 
 ```
 spice3 -b -o rom_check_con7_r20.out rom_check_con7_r20.ckt
@@ -656,6 +686,7 @@ As can be seen in the figures, in the order 7 reduced-order model the resistance
 
 Note that if Approach 1 were used, a single frequency would have to be chosen to generate an equivalent circuit. This would be less accurate but would probably reduce subsequent Spice simulation time.
 
+<a name="command-line-option"></a>
 ### Command Line Option
 
 This section describes using the command line options to change the defaults settings. All arguments are case insensitive.
@@ -663,42 +694,38 @@ This section describes using the command line options to change the defaults set
 -(dash) Forces input to be read from the standard input.
 
 **-s {ludecomp | iterative}** - Specifies the matrix solution method used to solve
-the linear system arising from the discretization. iterative uses the GMRES iterative algorithm and ludecomp uses LU decomposition with back substitution. In general, GMRES is faster, however some speed up may be obtained using LU decomposition for problems with fewer than 1000 filaments. iterative is the default.
+the linear system arising from the discretization. `iterative` uses the GMRES iterative algorithm and `ludecomp` uses LU decomposition with back substitution. In general, GMRES is faster, however some speed up may be obtained using LU decomposition for problems with fewer than 1000 filaments. `iterative` is the default.
 
-**-m {direct | multi}** - Specifies the method to use to perform the matrix-vector
-product for the iterative algorithm. direct forms the full matrix and performs the product directly. multi uses the multipole algorithm to approximate the matrix-vector product. For larger problems, the multipole algorithm can save both computation time and memory. multi is the default.
+**-m {direct | multi}** - Specifies the method to use to perform the matrix-vector product for the iterative algorithm. `direct` forms the full matrix and performs the product directly. `multi` uses the multipole algorithm to approximate the matrix-vector product. For larger problems, the multipole algorithm can save both computation time and memory. `multi` is the default.
 
 **-p {on | off | loc | posdef | cube | seg | diag | shells }** - Specifies the
-method to precondition the matrix to accelerate iteration convergence. Two classes of preconditioners are implemented in FastHenry. Local inversion preconditioners (loc and posdef) were used in prior releases and have been replaced by the sparsified-L preconditioners. Three types of sparsified-L preconditioners are available, (cube, seg, and diag). cube is the default and produces the best results, however under certain conditions can consume significantly more memory than diag. If there are multiple filaments in each segment, than seg is a middle ground between diag and cube, otherwise it is identical to diag. shells uses a current shell idea described in
+method to precondition the matrix to accelerate iteration convergence. Two classes of preconditioners are implemented in FastHenry. Local inversion preconditioners (`loc` and `posdef`) were used in prior releases and have been replaced by the sparsified-L preconditioners. Three types of sparsified-L preconditioners are available, (`cube,` `seg`, and `diag`). `cube` is the default and produces the best results, however under certain conditions can consume significantly more memory than `diag`. If there are multiple filaments in each segment, than `seg` is a middle ground between `diag` and `cube`, otherwise it is identical to `diag`. `shells` uses a current shell idea described in
 
 >Mattan Kamon, Byron Krauter, Joel Phillips, Lawrence T. Pileggi, Jacob
 White, \Two Optimizations to Accelerated Method-of-Moments Algorithms for Signal Integrity Analysis of Complicated 3-D Packages", Proceedings of the
 IEEE 4th Topical Meeting on Electrical Performance of Electronic Packaging,
 Portland, OR, October 1995, pp. 213-216.
 
-The method is relatively new, and its performance is sensitive to the shell radius set by the -R option described below.
+The method is relatively new, and its performance is sensitive to the shell radius set by the `-R` option described below.
 
-**-o n** - Specifies n as the order of multipole expansions. Default is 2. Choosing values less than 2 result in faster execution at the expense of poorer accuracy. Changes in the order of expansions should accompany changes in iteration error tolerance with the -t option.
+**-o n** - Specifies `n` as the order of multipole expansions. Default is 2. Choosing values less than 2 result in faster execution at the expense of poorer accuracy. Changes in the order of expansions should accompany changes in iteration error tolerance with the `-t` option.
 
-**-l {n | auto}** - Specifies n as the number of partitioning levels for the multipole algorithm. auto chooses the level automatically and is the default.
+**-l {n | auto}** - Specifies `n` as the number of partitioning levels for the multipole algorithm. `auto` chooses the level automatically and is the default.
 
-**-f {off | simple | refined | both | hierarchy}**  - Switches FastHenry to visualization mode only and specifies the type of FastCap generic file to make (for visualization ONLY!). off will produce no file and is the default. simple will produce a file named zbuffile from the segments defined in the input file. refined produces a similar file, named zbuffile2, but uses the segments after either user refinement specified with -i or required refinement necessary for accuracy of the multipole algorithm (-l option). both produces both files. One FastCap \panel" is created for each of the four sides along
-the length of the each segment. Reference planes are handled differently as described under the -g option below. See Section 3 for details on producing postscript. FastHenry will exit after creating the visualization files. hierarchy will dump a 2D representation of the nonuniform reference plane discretization hierarchy to the FIXED file hier.qui which can also be processed like the zbuffile.
+**-f {off | simple | refined | both | hierarchy}**  - Switches FastHenry to visualization mode only and specifies the type of FastCap generic file to make (for visualization ONLY!). `off` will produce no file and is the default. `simple` will produce a file named zbuffile from the segments defined in the input file. `refined` produces a similar file, named zbuffile2, but uses the segments after either user refinement specified with -i or required refinement necessary for accuracy of the multipole algorithm (`-l` option). `both` produces both files. One FastCap "panel" is created for each of the four sides along the length of the each segment. Reference planes are handled differently as described under the -g option below. See Section 3 for details on producing postscript. FastHenry will exit after creating the visualization files. `hierarchy` will dump a 2D representation of the nonuniform reference plane discretization hierarchy to the FIXED file hier.qui which can also be processed like the zbuffile.
 
 **-g {on | off | thin | thick}** - controls appearance of the ground plane when
-using the -f option. off is the default and only four panels are produced for each plane, one for each of the edges. Thus only the outline of each plane is drawn. This makes generation of the postscript image much faster and also makes the planes transparent. No holes are visible, however. on or thin will draw all the overlapping segments of the ground plane as if infintely thin. Note that using this option for a finely discretized plane may take a long time to generate a postscript image with zbuf. thick will completely draw the segments of the plane and will be even slower for generating postscript images.
+using the `-f` option. off is the default and only four panels are produced for each plane, one for each of the edges. Thus only the outline of each plane is drawn. This makes generation of the postscript image much faster and also makes the planes transparent. No holes are visible, however. on or thin will draw all the overlapping segments of the ground plane as if infintely thin. Note that using this option for a finely discretized plane may take a long time to generate a postscript image with zbuf. thick will completely draw the segments of the plane and will be even slower for generating postscript images.
 
-**-a {on | off}** - on allows the multipole algorithm to automatically refine the structure as is necessary to maintain accuracy in the approximation. The structure will be refined whether or not the multipole algorithm is used. off prevents refinement and will produce a warning if the multipole algorithm is used and prevented from necessary refinement. on is the default and is equivalent to -l auto. Note that this is not refinement to reduce discretization error. See the -i option.
+**-a {on | off}** - on allows the multipole algorithm to automatically refine the structure as is necessary to maintain accuracy in the approximation. The structure will be refined whether or not the multipole algorithm is used. off prevents refinement and will produce a warning if the multipole algorithm is used and prevented from necessary refinement. on is the default and is equivalent to `-l` auto. Note that this is not refinement to reduce discretization error. See the `-i` option.
 
-**-i n** - Specifies n as the level for initial refinement. This option allows the user to refine the structure if the input file is too coarse. It will divide each segment of the geometry into multiple segments so that no segment has a length greater than $$1/{2^n}$$ times the length of the smallest cube which contains the whole structure. The default is 0 (no refinement). This option is rarely used since the multipole algorithm will refine as it needs and discretization errors of this sort are usually small.
+**-i n** - Specifies n as the level for initial refinement. This option allows the user to refine the structure if the input file is too coarse. It will divide each segment of the geometry into multiple segments so that no segment has a length greater than \\(1/{2^n}\\) times the length of the smallest cube which contains the whole structure. The default is 0 (no refinement). This option is rarely used since the multipole algorithm will refine as it needs and discretization errors of this sort are usually small.
 
-**-d {on | off | mrl | mzmt | grids | meshes | pre | a | m | rl | ls}** - dump certain internal matrices to files. The format of some of the files can be specified with the -k option. on dumps the M; R; L; MZMt
-and preconditioner matrices. off dumps none and is the default. mrl dumps the M, R, and L matrices. mzmt dumps the MZMt matrix for w = 1. grids dumps matrices for viewing the current distribution inside each reference plane (only in matlab format). meshes is a matlab file for viewing the KVL meshes chosen by FastHenry. pre dumps the preconditioner in a sparse matrix text format. ls dumps the sparsified L matrix in sparse text format. a is the branch incidence matrix, A. m can be used to dump only the mesh matrix M. Similarly, only R and L can be dumped with rl. The right-hand-side vector, Vs , is dumped to the file b.mat whenever anything but off is specified.
+**-d {on | off | mrl | mzmt | grids | meshes | pre | a | m | rl | ls}** - dump certain internal matrices to files. The format of some of the files can be specified with the `-k` option. `on` dumps the M, R, L, MZMt and preconditioner matrices. `off` dumps none and is the default. mrl dumps the M, R, and L matrices. `mzmt` dumps the MZMt matrix for w = 1. `grids` dumps matrices for viewing the current distribution inside each reference plane (only in matlab format). `meshes` is a matlab file for viewing the KVL meshes chosen by FastHenry. `pre` dumps the preconditioner in a sparse matrix text format. `ls` dumps the sparsified L matrix in sparse text format. `a` is the branch incidence matrix, A. `m` can be used to dump only the mesh matrix M. Similarly, only R and L can be dumped with `rl`. The right-hand-side vector, Vs , is dumped to the file b.mat whenever anything but `off` is specified.
  
-**-k {matlab | text | both}** - Specifies type of file to dump with the -d option.
-matlab dumps the files as M.mat, MRL.mat, MZMt.mat, and A.mat in a format readable by matlab. text saves the files M.dat, L.dat, R.dat, MZMt.dat, and A.dat as text. both saves files in both formats.
+**-k {matlab | text | both}** - Specifies type of file to dump with the -d option. Matlab dumps the files as M.mat, MRL.mat, MZMt.mat, and A.mat in a format readable by matlab. text saves the files M.dat, L.dat, R.dat, MZMt.dat, and A.dat as text. both saves files in both formats.
 
-**-t rtol, -b atol** - Specifies the tolerance for iteration error. FastHenry calculates each column of the impedance matrix separately. The iterative algorithm will stop iterating when both the real and imaginary part of each element, xk , of the current column being calculated satisfy
+**-t rtol, -b atol** - Specifies the tolerance for iteration error. FastHenry calculates each column of the impedance matrix separately. The iterative algorithm will stop iterating when both the real and imaginary part of each element, \\(x_k\\) , of the current column being calculated satisfy
 
 $$
 jxi1kxikj < rtol  (jxikj + atol  (maxj jxijj)) (1)
@@ -711,7 +738,7 @@ essence, this causes GMRES iterations to stop if every element of solution vecto
 
 **-D {on | off}** - Controls the printing of debugging information. off is the default. on will cause FastHenry to print more detailed information about the automatic partitioning level selection, memory consumption, preconditioner calculation, and convergence of the iterates. The Matlab file Ycond.mat is also produced which contains the admittance matrices at each frequency and also the norm of the residual at each step of the GMRES algorithm.
 
-**-x portname** - Specifies that only the column in the admittance matrix specified by portname should be computed. Multiple -x specifications can be used. In this case, the output file Zc.mat will contain the requested columns of the admittance matrix instead of the impedance matrix. The portname is specified in the input file with the .External keyword. The primary uses of this option are either to exploit symmetry or to compute single columns for observing current distribution. For instance, if a 10 pin package is symmetric about some axis, then only five columns need be computed. The user is then responsible for forming the 10  10 impedance matrix from the 10  5 result. Also, if the -d grids option is used, the port which is the source of current would be specified with this option.
+**-x portname** - Specifies that only the column in the admittance matrix specified by portname should be computed. Multiple -x specifications can be used. In this case, the output file Zc.mat will contain the requested columns of the admittance matrix instead of the impedance matrix. The portname is specified in the input file with the .External keyword. The primary uses of this option are either to exploit symmetry or to compute single columns for observing current distribution. For instance, if a 10 pin package is symmetric about some axis, then only five columns need be computed. The user is then responsible for forming the 10x10 impedance matrix from the 10x5 result. Also, if the -d grids option is used, the port which is the source of current would be specified with this option.
 
 **-S suffix** - This adds the string suffix to all filenames for this run. For instance, -S blah will produce the output file Zc blah.mat.
 
@@ -724,11 +751,12 @@ of the model will be order*number-of-ports. A matlab file rom.m will contain the
 
 **-v** - Regurgitate internal representation of the geometry to stdout in the input file format. Good for debugging. User can compare output to the original input file. Also, by altering the file regurgitate.c, the user can also call functions to translate and reect the geometry for use as another input file.
 
+<a name="discretization-error-analysis"></a>
 ### Discretization Error Analysis
 
 This section gives some guidelines and describes an experimental approach to determining an appropriate discretization to model skin and proximity effects in long, thin condutors defined with FastHenry segments. (For a description of discretization for reference planes, see \nonuniform manual.ps".)
 
-To begin, assume it is desired to compute the impedance matrix for the pin connect structure of Figure 8 for frequencies up to 108 Hz.
+To begin, assume it is desired to compute the impedance matrix for the pin connect structure of Figure 8 for frequencies up to \\(10^8\\) Hz.
 
 #### The DC case
 
@@ -754,10 +782,10 @@ The output will be in file Zc_DC.mat.
 
 #### The highest frequency case
 
-Next, consider deciding how many filaments are needed to accurately compute the resistance and inductance at the highest frequency point of interest, f = 108 Hz. A good rule of thumb is to choose the discretization such that the width of the smallest filament is roughly equal to the skin depth. For this geometry, $\rho = 0.0238$ ohm-mil or $\sigma = 1.641E10^66$ mho/m giving a skin depth of
+Next, consider deciding how many filaments are needed to accurately compute the resistance and inductance at the highest frequency point of interest, f = 108 Hz. A good rule of thumb is to choose the discretization such that the width of the smallest filament is roughly equal to the skin depth. For this geometry, \\(\rho = 0.0238\\) ohm-mil or \\(\sigma = 1.641E10^6\\) mho/m giving a skin depth of
 
 $$
-\delta = \sqrt{\frac{1}{\pi f \mu\sigma}}= 1.55 \mathmr{mils.}
+\delta = \sqrt{\frac{1}{\pi f \mu\sigma}}= 1.55 \mathrm{mils.}
 $$
 
 To observe the error involved with various discretizations, we will look at the impedance matrix for two typical adjacent segments from the pin-connect.inp example:
@@ -788,7 +816,7 @@ E17C N17B N17C
 .END
 ```
 
-The result will be a 2  2 complex matrix for each frequency point,
+The result will be a 2x2 complex matrix for each frequency point,
 
 $$
 Z(!) = "
@@ -796,7 +824,7 @@ R11(!) + j!L11(!) R12(!) + j!L12(!)
 R21(!) + j!L21(!) R22(!) + j!L22(!)
 $$
 
-If we choose nhinc = 3 and nwinc = 5 with a default ratio of adjacent filaments equal to 2 (rh = rw = 2), then the width of the smallest filament on the right and left of the segment will be 1/10 the width $((1 + 2 + 4 + 2 + 1)^-1 )$, or 2.4 mils. The thickness of the filaments on the top and bottom of the segment will be 1/4 of the height $((1 + 2 + 1)^-1)$ or 2.1 mils.
+If we choose nhinc = 3 and nwinc = 5 with a default ratio of adjacent filaments equal to 2 (rh = rw = 2), then the width of the smallest filament on the right and left of the segment will be 1/10 the width \\((1 + 2 + 4 + 2 + 1)^-1 \\), or 2.4 mils. The thickness of the filaments on the top and bottom of the segment will be 1/4 of the height(((1 + 2 + 1)^-1)\\) or 2.1 mils.
 
 To run fasthenry,
 
@@ -806,10 +834,10 @@ fasthenry pin-con2seg.inp -sludecomp -aoff -S _3x5_2
 
 In this case, since there are so few filaments, LU decomposition is slightly faster. Also, automatic refinement is prevented with the -aoff option since the multipole algorithm is not being used and this problem is essentially two-dimensional.
 
-The smallest filaments are slightly above the skin depth and thus the results are inaccurate at $f = 10^8$ as shown by the dotted lines in Figure 13. The next logical step might be to increase the discretization to nhinc  nwinc = 4  6 however using even numbers of filaments is not efficient since the center of the segment, where current is relatively constant, will be divided into 4 separate filaments. For the odd case, the center is modeled by only one filament. Instead, consider changing the ratio of adjacent segments to rh = 4, rw = 3. Now, the width of the smallest filament on the left and right sides of the segment will be 1/17 of the total width $((1 + 3 + 9 + 3 + 1)^-1)$ or 1.41 mils and the thickness of the smallest filament on the top and bottom, 1.42 mils. This is much closer to the skin depth and gives better results as shown by the dash-dot lines in Figure 13.
+The smallest filaments are slightly above the skin depth and thus the results are inaccurate at \\(f = 10^8\\) as shown by the dotted lines in Figure 13. The next logical step might be to increase the discretization to nhinc  nwinc = 4  6 however using even numbers of filaments is not efficient since the center of the segment, where current is relatively constant, will be divided into 4 separate filaments. For the odd case, the center is modeled by only one filament. Instead, consider changing the ratio of adjacent segments to rh = 4, rw = 3. Now, the width of the smallest filament on the left and right sides of the segment will be 1/17 of the total width \\((1 + 3 + 9 + 3 + 1)^-1\\) or 1.41 mils and the thickness of the smallest filament on the top and bottom, 1.42 mils. This is much closer to the skin depth and gives better results as shown by the dash-dot lines in Figure 13.
 
 Another possibility is to reduce the number of filaments below 3  5 but further
-increase the ratio of adjacent filaments. This change would result in faster execution since there would be fewer filaments, however some accuracy at midrange frequencies would be sacrificed. For instance, consider maintaining the width of the smallest filaments by changing the discretization above to 3  3 with rh = 4, rw = 15. In this case there are too few filaments to model the decay of current density from the outside edge to center for $f  [106, 108]$ as shown by the dashed line in Figure 13.
+increase the ratio of adjacent filaments. This change would result in faster execution since there would be fewer filaments, however some accuracy at midrange frequencies would be sacrificed. For instance, consider maintaining the width of the smallest filaments by changing the discretization above to 3x3 with rh = 4, rw = 15. In this case there are too few filaments to model the decay of current density from the outside edge to center for \\(f \in [10^6, 10^8]\\) as shown by the dashed line in Figure 13.
 
 After the user has decided which error for the above cases is tolerable for a given problem, the discretization can then be used for the full pin-connect.inp example. The default nhinc and nwinc must be set with
 
@@ -838,10 +866,12 @@ The multipole algorithm would require space be divided, and thus the filaments a
 For the 21x25 problem, the time spent forming the preconditioner is significant. The -pdiag option could have been used to reduce the preconditioner time, however this would come at the expense of slower convergence especially at the higher frequencies.
 
 
+<a name="geometry-postscript-pictures"></a>
 ## Geometry Postscript Pictures
 
 The ability to see the geometry under analysis is an important tool for debugging input files. This section describes how to generate postscript files for visualizing the three dimensional structures defined by a given input file. The process involves first running FastHenry to generate a file of \panels" and then running zbuf to generate the postscript file
 
+<a name="creating-the-panel"></a>
 ### Creating the panel 
 
 When FastHenry is given the -f option, it changes from calculation to visualization mode. It will produce a file of panels readable by the zbuf program. Each panel is a quadrilateral representing one of the faces of a segment in the input geometry. This file of panels can either be formed from the segments of the geometry before FastHenry's refinement with the simple argument, or after refinement with the refined argument. The basenames for the files produced are zbuffile for simple geometry and zbuffile2 for refined unless the -S is used.
@@ -849,6 +879,7 @@ When FastHenry is given the -f option, it changes from calculation to visualizat
 In addition, the file zbuffile shadings or zbuffile2 shadings is produced which
 specifies a shade of gray to assign to each of the panels. zbuffile shadings is produced for -f simple and shades each of the reference planes (if drawn with -g on) of the structure differently, and leaves all other structures white. zbuffile2 shadings, produced with -f refined, does the same, however it attempts to shade differently each of the conductors specified with a .external statement.
 
+<a name="creating-the-postscript-file"></a>
 ### Creating the postscript file
 
 The panel file described in the previous section can be rendered in postsciprt with the zbuf program. This program is a modified version of the algorithms used for visualization in the capacitance extraction program, FastCap, developed by Keith Nabors.
@@ -869,10 +900,12 @@ Usually the default settings produce an acceptable plot, but many adjustments ar
 In version 3.0, the zbuf program now takes the "-m" argument to produce a Matlab file for faster visualization in matlab. This is very beneficial for large files since producing the postscript file with zbuf can take n2
 time. The matlab file can be viewed within matlab with the fasthenry-3.0/bin/plotfastH.m matlab function. The file zbuffile.mat would be produced with \zbuf -m zbuffile" which can then be viewed in matlab with "plotfastH('zbuffile.mat')". Also, you can modify the file src/zbuf/dump struct.c to output in YOUR own format instead of matlab.
 
+<a name="tricks"></a>
 ### Tricks
 
 For Figure 7, the shading of the trace and ground plane were swapped by negating all the shading values with the awk file invert.awk provided in the zbuf source directory. Also, Figure 10, since it is only one pin, would normally appear white and all panels would have shade 0 in the shading file. By randomly changing one panel to 5 and another to 10, then 5 becomes white, 10 becomes black, and 0, a shade of gray. The single black panel is seen on the left end of the figure and the white panel is obscured by other panels.
 
+<a name="visualization-artifacts"></a>
 ### Visualization artifacts
 
 This section discribes possible problems with producing pictures. Many of the listed items come directly from the FastCap documentation.
@@ -891,12 +924,14 @@ output panels for the end faces of a segment. Thus, segments often appear hollow
 * When axes are included in postscript files using the `-x<axes length> `option, the axes' two-dimensional pro jections appear in the postscript file before the panel fills. This means that the ob ject should be between the view point and the axes, otherwise the axes can be obscured strangely. Thus the option works best when viewing ob jects that lie entirely in the positive orthant from a view point in the positive orthant.
 
 
+<a name="reference-plane-current-visualization"></a>
 ## Reference Plane Current Visualization
 
 When FastHenry is given the -d grids option, it dumps Matlab readable files of the current distribution in each reference plane of the geometry under analysis. One file is dumped for each of the columns computed for the admittance matrix. The file holds the current distribution produced by setting the source across the port corresponding to the current column to one volt and all others ports to zero. This process is then repeated for each freqeuncy point.
 
 Note: For nonuniformly discretized planes, the filename is the same, but the file format is very different. See nonuniform manual.ps. This document also describes viewing the current distribution in other than reference planes.
 
+<a name="current-files"></a>
 ### Current Files
 
 The files are named according to the column in Zc.mat and frequency point. They have the form Gridn m.mat where n is the column (and row) in Zc.mat of the port which has the one volt source and m is the frequency point number. The frequency points start at 0 and increment by one for each new frequency.
@@ -905,6 +940,7 @@ grid2g<name> where name is the name of the reference plane defined in the input 
 
 In general it is difficult to visualize complex current, but when the current is purely real (DC) or purely imaginary (high frequency), these two matrices can be thought of as the current in two orthogonal directions.
 
+<a name="examples"></a>
 ### Examples
 
 Consider the example file together.inp shown in Figure 14. This structure is simply two traces passing over a ground plane with one end of each trace shorted to the plane. Thus, when one volt is applied to the other end of one of the traces, current travels down the trace and returns through the plane. To generate the current distribution files:
@@ -918,4 +954,5 @@ The files Grid1 0.mat and Grid1 1.mat are produced in addition to FastHenry's no
 The current distribution can then be viewed using the following Matlab commands
 to produce Figures 15 and 16.
 
+<a name="compiling-fasthenry"></a>
 ## Compiling FastHenry
