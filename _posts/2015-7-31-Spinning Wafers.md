@@ -78,7 +78,7 @@ If for some reason you screw up a mask (before etching) and want to save $275 (o
 1. Rinse the resist in the strip bath
 2. Spin dry
 3. Bake for a minute or so on any hotplate over 100C. You want to get all of the water out of the quartz. 
-4. Spin on some 1805 resist from the general drawer. Use the large spinner in the e-beam spinner room. You may need to swap out the holder to hold a 5inch mask. Spin at 2000 RPM for a minute.
+4. Spin on some 1805 resist from the general drawer. Use the large spinner in the e-beam spinner room. You may need to swap out the holder to hold a 5inch mask. Spin at 2000 RPM for a minute. You'll probably need to clean the spinner afterwards, just use an acetone-IPA rinse. 
 5. Bake at 115&deg;C for 60s
 
 

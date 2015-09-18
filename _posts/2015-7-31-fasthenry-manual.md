@@ -6,6 +6,12 @@ layout: page
 
 This is a rip from the available FastHenry User's Guide that comes with the fasthenry package. I put it here to make it easily findable and searchable, and also so I could read it while re-writing it. 
 
+**TO DO**
+
+* Finish equation formatting
+* Fix links to other sections
+* Add all images
+
 <!-- MarkdownTOC depth=3-->
 
 1. [How to Prepare Input Files](#how-to-prepare-input-files)
@@ -84,7 +90,7 @@ As described in the comments, .Units MM defines all coordinates and lengths to b
 E1 N1 N2 w=0.2 h=0.1
 ```
 
-defines segment E1 to extend from node N1 to N2 and have a width of 0.2 mm and height of 0.1 mm as drawn in Figure 1. If the nn impedance matrix, Z(!), for an n-conductor problem is thought of as the parameters describing an n-port network, then the line
+defines segment E1 to extend from node N1 to N2 and have a width of 0.2 mm and height of 0.1 mm as drawn in Figure 1. If the nn impedance matrix, \\(Z(\omega)\\), for an n-conductor problem is thought of as the parameters describing an n-port network, then the line
 
 ```
 .external N1 N5
@@ -92,13 +98,13 @@ defines segment E1 to extend from node N1 to N2 and have a width of 0.2 mm and h
 
 defines N1 and N5 as one port of the network. In this example, only one port is specified, so the output will be a 1 x 1 matrix containing the value of the impedance looking into this one port.
 
-FastHenry calculates $Z(\omega)$ at the discrete frequencies described by the line
+FastHenry calculates \\(Z(\omega)\\) at the discrete frequencies described by the line
 
 ```
 .freq fmin=1e4 fmax=1e8 ndec=1
 ```
 
-where fmin and fmax are the minimum and maximum frequencies of interest, and ndec is the number of desired frequency points per decade. In this case, Z(!) will be calculated at 10^4, 10^5 10^6 10^7 and 10^8 Hz. All input files must end with .end.
+where fmin and fmax are the minimum and maximum frequencies of interest, and ndec is the number of desired frequency points per decade. In this case, \\(Z(\omega)\\) will be calculated at \\(10^4, 10^5 10^6 10^7\\) and \\(10^8\\) Hz. All input files must end with .end.
 
 In the above example, FastHenry created one filament per segment since no discretization of the segments into filaments was specified. In order to properly model non-uniform cross sectional current due to skin and proximity effects, a finer discretization must be used. Finer filaments are easily specified in the segment definition. For example, replacing the definition for E1 with 
 
@@ -109,12 +115,12 @@ E1 N1 N2 w=0.2 h=0.1 nhinc=5 nwinc=7
 specifies that E1 is to be broken up into thirty-five filaments: five along its height (nhinc=5) and seven along its width (nwinc=7). See Figure 2.
 
 <figure>
- <img src="images/fhFig1.PNG">
+ <img src="/images/fhFig1.PNG">
  <figcaption>Figure 1: Example Segment for Sample input File</figcaption>
 </figure>
 
 <figure>
-<img src="images/fhFig2.PNG">
+<img src="/images/fhFig2.PNG">
 <figcaption>Figure 2: Segment discretized into 35 filaments</figcaption>
 </figure>
 
@@ -124,7 +130,7 @@ specifies that E1 is to be broken up into thirty-five filaments: five along its 
 To continue teaching by example, what follows is an example of computing the loop inductance of an L shaped trace over a ground plane with the trace's return path through the plane as shown in Figure 3. Note that a line beginning with `+' is a continuation of the previous line.
 
 <figure>
-    <img src="images/fhFig3.PNG">
+    <img src="/images/fhFig3.PNG">
     <figcaption>Figure 3: L-shaped trace over ground plane</figurecaption>
 </figure>
 
@@ -335,7 +341,7 @@ Note: It is recommended that nonuniformly discretized planes be used instead of 
 ##### Uniformly discretized planes
 
 <figure>
-    <img src="images/fhFig4.PNG">
+    <img src="/images/fhFig4.PNG">
     <figcaption>Figure 4: Discretization of a Reference Plane. Segments are one-third actual width.</figcaption>
 </figure>
 
@@ -445,7 +451,7 @@ This section describes other examples using more of the features of FastHenry. S
 * **Printed Circuit Board**
 
 <figure>
-    <img src="../uploads/images/fhFig5.PNG">
+    <img src="../uploads//images/fhFig5.PNG">
     <figcaption>Figure 5: Printed Circuit Board example</figcaption>
 </figure>
 
@@ -454,7 +460,7 @@ The example file gpexamp copper.inp shown in Figure 5 is a portion of a printed 
 * **Vias and Meshed Planes**
 
 <figure>
-    <img src="../uploads/images/fhFig6.PNG">
+    <img src="../uploads//images/fhFig6.PNG">
     <figcaption>Figure 6: Vias through a meshed ground plane</figcaption>
 </figure>
 
@@ -463,7 +469,7 @@ The example file vias.inp shown in Figure 6 shows three vias passing through a m
 * **Holey ground plane**
 
 <figure>
-    <img src="../uploads/images/fhFig7.PNG">
+    <img src="../uploads//images/fhFig7.PNG">
     <figcaption>Figure 7: Trace over Ground Plane with holes</figcaption>
 </figure>
 
@@ -949,7 +955,7 @@ Consider the example file together.inp shown in Figure 14. This structure is sim
 fasthenry together.inp -d grids -x trace1
 ```
 
-The files Grid1 0.mat and Grid1 1.mat are produced in addition to FastHenry's normal output files. By default, FastHenry would compute the current distribution for the source voltage placed one trace and then again for the other trace. Since the current distribution is nearly identical for both cases, we need only compute one of these cases and thus the -x option is used to specify that only the column of the admittance matrix corresponding to port trace1 is to be computed (see input file). Also, since visualization is the goal, together.inp specifies that only a low frequency case, f = 101H z, and a high frequency case, f = 1019H z are to be computed. In this example, the discretization of the plane is coarse for visualization purposes.
+The files Grid1 0.mat and Grid1 1.mat are produced in addition to FastHenry's normal output files. By default, FastHenry would compute the current distribution for the source voltage placed one trace and then again for the other trace. Since the current distribution is nearly identical for both cases, we need only compute one of these cases and thus the -x option is used to specify that only the column of the admittance matrix corresponding to port trace1 is to be computed (see input file). Also, since visualization is the goal, together.inp specifies that only a low frequency case, \\(f = 10^1\\)Hz, and a high frequency case, \\(f = 10^{19}\\)Hz are to be computed. In this example, the discretization of the plane is coarse for visualization purposes.
 
 The current distribution can then be viewed using the following Matlab commands
 to produce Figures 15 and 16.
