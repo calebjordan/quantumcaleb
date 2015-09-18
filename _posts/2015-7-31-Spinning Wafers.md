@@ -11,6 +11,7 @@ tags: Fabrication
     2. [Aluminum](#aluminum)
 2. [Dielectric Layers](#dielectric-layers)
     1. [Silicon Dioxide](#silicon-dioxide)
+3. [Masks](#masks)
 
 <!-- /MarkdownTOC -->
 
@@ -32,7 +33,7 @@ Our resist storage is in drawer 9, in the back right corner.
 
 * \\(\omega = 5000\\), \\(\alpha=10,000\\), \\(t=60s\\)
 
-* **Post Bake** 185&deg;C for 90s
+* Soft Bake 185&deg;C for 90s
 
 #### Layer 2 - DUV Resist
 * UV210-06
@@ -43,7 +44,7 @@ Our resist storage is in drawer 9, in the back right corner.
 
 * \\(\omega=3000\\), \\(\alpha=8000\\), \\(t=60s\\)
 
-* **Post Bake** 135&deg;C for 60s
+* Soft Bake 135&deg;C for 60s
 
 <a name="aluminum"></a>
 ### Aluminum
@@ -61,8 +62,23 @@ Our resist storage is in drawer 9, in the back right corner.
 
 * \\(\omega = 5000\\), \\(\alpha=10,000\\), \\(t=60s\\)
 
-* **Post Bake** 185&deg;C for 90s
+* Soft Bake 185&deg;C for 90s
 
 #### Layer 2 - Negative DUV Resist
+* UVN230
+* [Data Sheet](http://www.microchem.com/PDFs_Dow/UVN30%20Datasheet.pdf)
+* Soft Bake 110&deg;C for 60s
+* PEB 105&deg;C for 60s
+
+<a name="masks"></a>
+## Masks
+
+If for some reason you screw up a mask (before etching) and want to save $275 (or can't wait for the CNF guys to sell you a new one), you can respin your own resist and reuse the mask. 
+
+1. Rinse the resist in the strip bath
+2. Spin dry
+3. Bake for a minute or so on any hotplate over 100C. You want to get all of the water out of the quartz. 
+4. Spin on some 1805 resist from the general drawer. Use the large spinner in the e-beam spinner room. You may need to swap out the holder to hold a 5inch mask. Spin at 2000 RPM for a minute.
+5. Bake at 115&deg;C for 60s
 
 
