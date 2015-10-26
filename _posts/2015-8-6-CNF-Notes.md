@@ -1,7 +1,7 @@
 ---
 title: CNF Notes
 layout: post
-tag: Misc Fabrication
+tags: Misc Fabrication
 ---
 
 ## Locker Combination

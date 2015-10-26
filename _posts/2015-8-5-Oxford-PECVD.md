@@ -1,7 +1,7 @@
 ---
 title: Oxford PECVD
 layout: post
-tag: Fabrication
+tags: Fabrication
 ---
 
 Contact: [Tom Pennell](pennell@cnf.cornell.edu)
